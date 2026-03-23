@@ -60,8 +60,7 @@ export default function Home() {
           Latest Writings
         </h1>
         <p className="mt-6 text-xl leading-8 text-zinc-400">
-          Thoughts, tutorials, and deep dives into software development. Focused on
-          modern web tech, systems programming, and cleaner code.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
       </div>
 

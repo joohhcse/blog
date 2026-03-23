@@ -119,8 +119,11 @@ export default function PostDetail({ params }: { params: Promise<{ id: string }>
         {/* Thumbnail (Simulating the placement in the design screenshot) */}
         <div className="relative mb-8 h-[400px] w-full overflow-hidden rounded-xl">
           <img
-            src={displayPost.cover_image}
+            src={displayPost.cover_image || "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2670&auto=format&fit=crop"}
             alt="Cover"
+            onError={(e) => {
+              e.currentTarget.src = "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2670&auto=format&fit=crop";
+            }}
             className="h-full w-full object-cover"
           />
           <p className="mt-4 text-center text-sm text-zinc-500">Visualizing component tree re-renders</p>

@@ -37,12 +37,6 @@ export function Header() {
           <Link href="/login" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
             Log in
           </Link>
-          <Link
-            href="/signup"
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 transition-colors"
-          >
-            Sign up
-          </Link>
         </nav>
       </div>
     </header>
