@@ -3,6 +3,7 @@
 import { useActionState, useState } from "react";
 import { login, signup } from "@/app/login/actions";
 import { Eye, EyeOff, Lock, Mail } from "lucide-react";
+import Link from "next/link";
 
 export default function AuthForm() {
   const [mode, setMode] = useState<"login" | "signup">("login");
@@ -119,7 +120,7 @@ export default function AuthForm() {
       </form>
       
       <div className="mt-6 pt-6 border-t border-gray-800 text-center text-xs text-gray-500 leading-relaxed">
-        계속 진행하면 <a href="#" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">이용약관</a> 및 <br/> <a href="#" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">개인정보처리방침</a>에 동의하는 것으로 간주됩니다.
+        계속 진행하면 <Link href="/terms" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">이용약관</Link> 및 <br/> <Link href="/privacy" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">개인정보처리방침</Link>에 동의하는 것으로 간주됩니다.
       </div>
     </div>
   );
