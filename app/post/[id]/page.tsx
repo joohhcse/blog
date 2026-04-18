@@ -53,6 +53,7 @@ export default function PostDetail({ params }: { params: Promise<{ id: string }>
   // Fallback to match specific design if data fetch is empty (e.g., db push not run yet, or bad ID)
   const displayPost = post || {
     title: "Optimizing React Rendering for High Performance",
+    excerpt: "Learn how to significantly improve your React application's performance by minimizing unnecessary renders and using memorization hooks effectively.",
     author_name: "Sarah Dev",
     author_avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
     published_at: "2023-10-24",
@@ -86,8 +87,6 @@ export default function PostDetail({ params }: { params: Promise<{ id: string }>
             <span className="font-semibold text-white">{displayPost.author_name}</span>
             <div className="flex items-center gap-2 text-sm text-zinc-400">
               <time dateTime={displayPost.published_at}>{date}</time>
-              <span className="h-1 w-1 rounded-full bg-zinc-600"></span>
-              <span>{displayPost.read_time_minutes} min read</span>
             </div>
           </div>
         </div>
@@ -126,8 +125,13 @@ export default function PostDetail({ params }: { params: Promise<{ id: string }>
             }}
             className="h-full w-full object-cover"
           />
-          <p className="mt-4 text-center text-sm text-zinc-500">Visualizing component tree re-renders</p>
         </div>
+
+        {displayPost.excerpt && (
+          <div className="mb-12 border-l-2 border-blue-500 pl-6 text-xl text-zinc-300 leading-relaxed italic">
+            "{displayPost.excerpt}"
+          </div>
+        )}
 
         {/* Mocking the rest of the rich text from the specific design requirement */}
         { !post && (

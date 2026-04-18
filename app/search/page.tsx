@@ -1,27 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { CategoryFilter, Category } from "@/components/CategoryFilter";
 import { PostCard } from "@/components/PostCard";
 import { Pagination } from "@/components/Pagination";
 
-export default function Home() {
-  const [categories, setCategories] = useState<Category[]>([]);
+function SearchContent() {
+  const searchParams = useSearchParams();
+  const queryParam = searchParams.get("q") || "";
+  
   const [posts, setPosts] = useState<any[]>([]);
-  const [activeCategoryId, setActiveCategoryId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const supabase = createClient();
-
-  useEffect(() => {
-    async function getCategories() {
-      const { data } = await supabase.from("categories").select("*").order("name");
-      if (data) setCategories(data);
-    }
-    getCategories();
-  }, [supabase]);
 
   useEffect(() => {
     async function getPosts() {
@@ -33,11 +25,16 @@ export default function Home() {
           categories (
             name
           )
-        `, { count: 'exact' })
+        `)
         .order("published_at", { ascending: false });
 
-      if (activeCategoryId) {
-        query = query.eq("category_id", activeCategoryId);
+      if (queryParam) {
+        // Simple search in title or content
+        query = query.or(`title.ilike.%${queryParam}%,content.ilike.%${queryParam}%`);
+      } else {
+        // If no query parameter, you could either clear posts or still fetch
+        // Let's clear if you only want to show results for actual searches
+        // Or fetch all. Using fetch all for now to match behavior when empty.
       }
 
       // Pagination logic (example: 6 items per page)
@@ -46,35 +43,24 @@ export default function Home() {
       const to = from + itemsPerPage - 1;
       query = query.range(from, to);
 
-      const { data, count } = await query;
+      const { data } = await query;
       if (data) setPosts(data);
-      if (count !== null) setTotalPages(Math.max(1, Math.ceil(count / itemsPerPage)));
       setLoading(false);
     }
     getPosts();
-  }, [supabase, activeCategoryId, page]);
+  }, [supabase, queryParam, page]);
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col px-4 py-16 sm:px-6 lg:px-8">
-      {/* Hero Section */}
+      {/* Header Section */}
       <div className="mb-12 max-w-[800px]">
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
-          Latest Writings
+          Search Results
         </h1>
         <p className="mt-6 text-xl leading-8 text-zinc-400">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          Showing results for <span className="text-white font-semibold">"{queryParam}"</span>
         </p>
       </div>
-
-      {/* Category Filter */}
-      <CategoryFilter
-        categories={categories}
-        activeCategoryId={activeCategoryId}
-        onSelectCategory={(id) => {
-          setActiveCategoryId(id);
-          setPage(1); // Reset page on category change
-        }}
-      />
 
       {/* Post Grid */}
       {loading ? (
@@ -88,17 +74,25 @@ export default function Home() {
               <PostCard key={post.id} post={post} />
             ))}
           </div>
-          <Pagination 
-            currentPage={page} 
-            totalPages={totalPages} 
-            onPageChange={setPage} 
-          />
+          <Pagination />
         </>
       ) : (
         <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 text-zinc-500">
-          <p>No posts found in this category.</p>
+          <p>No posts found matching your search.</p>
         </div>
       )}
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-t-2 border-blue-500"></div>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   );
 }

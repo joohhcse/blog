@@ -21,21 +21,19 @@ export default function AuthForm() {
       <div className="flex bg-[#111827] p-1 rounded-lg mb-6">
         <button
           onClick={() => setMode("login")}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-            mode === "login"
-              ? "bg-[#374151] text-white shadow-sm"
-              : "text-gray-400 hover:text-white"
-          }`}
+          className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${mode === "login"
+            ? "bg-[#374151] text-white shadow-sm"
+            : "text-gray-400 hover:text-white"
+            }`}
         >
           로그인
         </button>
         <button
           onClick={() => setMode("signup")}
-          className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${
-            mode === "signup"
-              ? "bg-[#374151] text-white shadow-sm"
-              : "text-gray-400 hover:text-white"
-          }`}
+          className={`flex-1 py-2 text-sm font-medium rounded-md transition-colors ${mode === "signup"
+            ? "bg-[#374151] text-white shadow-sm"
+            : "text-gray-400 hover:text-white"
+            }`}
         >
           회원가입
         </button>
@@ -118,9 +116,9 @@ export default function AuthForm() {
           )}
         </button>
       </form>
-      
+
       <div className="mt-6 pt-6 border-t border-gray-800 text-center text-xs text-gray-500 leading-relaxed">
-        계속 진행하면 <Link href="/terms" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">이용약관</Link> 및 <br/> <Link href="/privacy" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">개인정보처리방침</Link>에 동의하는 것으로 간주됩니다.
+        계속 진행하면 <Link href="/terms" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">이용약관</Link> 및 <br /> <Link href="/privacy" className="text-gray-400 hover:text-gray-300 hover:underline transition-colors">개인정보처리방침</Link>에 동의하는 것으로 간주됩니다.
       </div>
     </div>
   );

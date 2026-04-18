@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Form from "next/form";
 import { Search } from "lucide-react";
 
 export function Header() {
@@ -22,14 +23,15 @@ export function Header() {
 
         {/* Search Bar */}
         <div className="hidden max-w-md flex-1 px-8 lg:block relative">
-          <div className="relative group">
+          <Form action="/search" className="relative group">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
             <input
+              name="q"
               type="search"
               placeholder="Search posts, tags, authors..."
               className="w-full rounded-md border border-white/10 bg-[#1c1f2e] py-2 pl-9 pr-4 text-sm text-zinc-200 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-colors"
             />
-          </div>
+          </Form>
         </div>
 
         {/* Auth Navigation */}

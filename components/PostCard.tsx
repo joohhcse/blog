@@ -43,8 +43,6 @@ export function PostCard({ post }: { post: Post }) {
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-center gap-2 text-xs font-medium text-zinc-400">
           <time dateTime={post.published_at}>{date}</time>
-          <span className="h-1 w-1 rounded-full bg-zinc-600"></span>
-          <span>{post.read_time_minutes} min read</span>
         </div>
         <h3 className="mt-3 text-xl font-bold leading-tight text-white group-hover:text-blue-400 transition-colors">
           {post.title}
