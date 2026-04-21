@@ -1,8 +1,13 @@
 import Link from "next/link";
 import Form from "next/form";
 import { Search } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
+import { logout } from "@/app/login/actions";
 
-export function Header() {
+export async function Header() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
   return (
     <header className="border-b border-white/5 bg-[#12141d]">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -36,9 +41,22 @@ export function Header() {
 
         {/* Auth Navigation */}
         <nav className="flex items-center gap-6">
-          <Link href="/login" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
-            Log in
-          </Link>
+          {user ? (
+            <>
+              <Link href="/write" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+                Write Post
+              </Link>
+              <form action={logout}>
+                <button type="submit" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+                  Log out
+                </button>
+              </form>
+            </>
+          ) : (
+            <Link href="/login" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+              Log in
+            </Link>
+          )}
         </nav>
       </div>
     </header>
